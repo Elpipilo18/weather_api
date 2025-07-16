@@ -1,0 +1,7 @@
+import api.mobileApp.WeatherRecord
+
+model {
+	WeatherRecord weatherRecord
+}
+
+json tmpl.weatherRecord(weatherRecord)

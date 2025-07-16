@@ -1,0 +1,7 @@
+import api.mobileApp.WeatherAlert
+
+model {
+	WeatherAlert weatherAlert
+}
+
+json tmpl.weatherAlert(weatherAlert)

@@ -1,0 +1,20 @@
+import api.mobileApp.WeatherRecord
+
+model {
+	Iterable<WeatherRecord> weatherRecordList
+	Integer weatherRecordCount
+	Integer currentMax
+	Integer currentOffset
+}
+
+json {
+	weatherRecords tmpl.weatherRecord(weatherRecordList ?: [])
+	meta {
+		pagination {
+			totalCount weatherRecordCount
+			currentMax currentMax
+			currentOffset currentOffset
+		}
+	}
+}
+

@@ -1,0 +1,16 @@
+import api.mobileApp.LectureType
+import api.mobileApp.WeatherRecord
+
+import java.text.SimpleDateFormat
+
+model {
+	WeatherRecord weatherRecord
+}
+
+json {
+	id weatherRecord.id
+	type weatherRecord.type.id
+	dateLabel new SimpleDateFormat("EEEE dd, MMMM yyyy", Locale.of("es", "MX")).format(weatherRecord.createdAt).capitalize()
+	time new SimpleDateFormat("HH:mm").format(weatherRecord.createdAt)
+	value weatherRecord.value.toString() + (weatherRecord.type == LectureType.TEMPERATURE ? " °C" : weatherRecord.type == LectureType.HUMIDITY ? " %" : " hPa")
+}
