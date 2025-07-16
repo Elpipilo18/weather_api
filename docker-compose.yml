@@ -3,36 +3,40 @@ services:
   grails-app:
     build:
       context: .
-    container_name: grails-container
-    volumes:
-      - .:/usr/src/app
-    working_dir: /usr/src/app
+    container_name: weather_app_api_container
     ports:
       - "8080:8080"
-    command: [ "tail", "-f", "/dev/null" ]
     depends_on:
       - weatherdb
     networks:
-      - grails_network
+      - grails_weather_app_network
+    environment:
+      # Ejemplo si necesitas conexión a la DB
+      DB_HOST: weatherdb
+      DB_PORT: 3306
+      DB_NAME: ${MYSQL_DATABASE}
+      DB_USER: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
 
-    weatherdb:
-      image: mariadb:latest
-      container_name: weatherdb
-      restart: always
-      ports:
-        - "3306:3306"
-      environment:
-        MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-        MYSQL_DATABASE: ${MYSQL_DATABASE}
-        MYSQL_USER: ${MYSQL_USER}
-        MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      volumes:
-        - mariadb_data:/var/lib/mysql
-        - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-      networks:
-        - grails_network
+  weatherdb:
+    image: mariadb:latest
+    container_name: weatherdb
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - grails_weather_app_network
 
 networks:
-  grails_network:
+  grails_weather_app_network:
+
 volumes:
   mariadb_data:

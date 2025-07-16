@@ -1,17 +1,13 @@
-# Base para Grails con Java JDK
+# Dockerfile
+
 FROM openjdk:21-jdk-bullseye
 
-# Configurar directorio de trabajo
 WORKDIR /usr/src/app
 
-# Instalación de herramientas adicionales
-RUN apt-get update && apt-get install -y \
-    curl \
-    unzip \
-    wget \
-    git \
-    build-essential \
-    && apt-get clean
+# Copiar el archivo WAR generado por Grails
+COPY build/libs/api-mobileApp.war app.war
 
-# Exponer el puerto de Grails
 EXPOSE 8080
+
+# Ejecutar el WAR al iniciar el contenedor
+CMD ["java", "-jar", "app.war"]
